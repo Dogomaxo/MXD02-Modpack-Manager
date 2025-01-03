@@ -1,11 +1,8 @@
----
 name: "❓ Support / Preguntas"
-about: Obtén ayuda o haz consultas sobre el proyecto
-title: "[SUPPORT]:"
-labels: question
-assignees: ''
-
----
+description: "Obtén ayuda o haz consultas sobre el proyecto"
+title: "[SUPPORT]: "
+labels: ["question"]
+assignees: []
 
 body:
   - type: markdown
