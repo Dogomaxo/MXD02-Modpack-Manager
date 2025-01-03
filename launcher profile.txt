@@ -1,0 +1,10 @@
+"23fc205a599a1340b3cb7ee096b9760d" : {
+      "created" : "2024-12-30T05:01:57.789Z",
+      "gameDir" : "C:\\Users\\maxin\\AppData\\Roaming\\.mxd02modpack",
+      "icon" : "Furnace_On",
+      "javaArgs" : "-Xmx4G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M",
+      "lastUsed" : "2024-12-31T19:10:22.883Z",
+      "lastVersionId" : "1.19.2-forge-43.4.0",
+      "name" : "mxd02modpack",
+      "type" : "custom"
+    }
