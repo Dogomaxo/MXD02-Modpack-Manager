@@ -1,11 +1,8 @@
----
-name: "\U0001F41E Bug report"
-about: Crea un reporte para ayudarnos a mejorar.
-title: "[BUG]"
-labels: bug
-assignees: Dogomaxo
-
----
+name: "🐞 Bug report"
+description: "Crea un reporte para ayudarnos a mejorar"
+title: "[BUG]: "
+labels: ["bug"]
+assignees: []
 
 body:
   - type: markdown
