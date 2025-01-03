@@ -34,7 +34,7 @@
 - En **Windows**, si usas la versión “.exe” compilada, no necesitas Python instalado.  
 - **Conexión a internet** para descargar el manifest y los archivos del modpack.
 
-Para la descompresión de ciertos formatos (`.rar`, `.7z`), puede que se requiera `patool` y herramientas externas instaladas en el sistema (p. ej., 7-Zip).
+Para la descompresión de ciertos formatos (`.rar`, `.7z`), puede que se requiera `patool` y herramientas externas instaladas en el sistema operativo (p. ej., 7-Zip).
 
 ---
 
