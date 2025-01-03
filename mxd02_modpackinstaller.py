@@ -220,9 +220,9 @@ class UpdateWorker(QThread):
             if not manifest_data:
                 raise Exception("No se pudo obtener el manifest o está vacío.")
 
-            latest_version = manifest_data.get("latestVersion") # p.e. "0.31"
+            latest_version = manifest_data.get("latestVersion")
             full_info = manifest_data.get("full", {})
-            patch_info = manifest_data.get("patch", {})  # p.e. {"version": "0.31.1", "url": "...", ...}
+            patch_info = manifest_data.get("patch", {})
 
             if not latest_version or "version" not in full_info:
                 raise Exception("El manifest no contiene la sección 'full' adecuada o 'latestVersion'.")
@@ -237,39 +237,25 @@ class UpdateWorker(QThread):
             self.log(f"Versión instalada: {current_version if current_version else 'Ninguna'}")
             self.log(f"Última versión disponible: {latest_version}")
 
-            # 3. Ver si hay parche
-            #    - Asumimos que 'patch_info["version"]' es una actualización "pequeña" para 
-            #      usuarios que ya tengan la versión 'full_info["version"]' instalada.
-            patch_version = patch_info.get("version")
-            # Ejemplo de lógica:
-            #   Si current_version == full_info["version"] y patch_version > full_info["version"],
-            #   intenta instalar patch.
-            #   Sino, instala full normal si current_version < latest_version.
-            #   (Ajusta esta lógica como gustes)
-
-            # Chequea si ya está en la última "full"
+            # 3. Si ya está en la última versión => mostrar mensaje y salir
             if current_version == latest_version:
-                # Chequea si hay un parche por encima de la full
-                if patch_version and self.is_version_greater(patch_version, current_version):
-                    self.log(f"Se detectó parche (versión {patch_version}). Instalando parche...")
-                    self.install_patch(patch_info)
-                    self.finishedSignal.emit(False, patch_version)
-                    return
-                else:
-                    self.log("Ya tienes la última versión (Full), sin parches pendientes.")
-                    self.finishedSignal.emit(False, f"{latest_version} (ya instalado)")
-                    return
-            else:
-                # Instalar/actualizar con Full
+                self.log("Ya tienes la última versión instalada. No es necesario actualizar.")
+                self.finishedSignal.emit(False, f"{latest_version} (ya instalado)")
+                return
+
+            # 4. Instalar Full Pack si la versión instalada no coincide con el Full más reciente
+            if current_version != full_info["version"]:
+                self.log(f"Instalando Full Pack {full_info['version']}...")
                 self.install_full(full_info)
-                # Después de Full, verifica si hay parche más nuevo:
-                if patch_version and self.is_version_greater(patch_version, full_info["version"]):
-                    self.log(f"Instalando parche {patch_version} encima de la versión Full {full_info['version']}...")
-                    self.install_patch(patch_info)
-                    self.finishedSignal.emit(False, patch_version)
-                    return
-                # Listo
-                self.finishedSignal.emit(False, full_info["version"])
+                current_version = full_info["version"]  # Actualiza la versión después de instalar el Full
+
+            # 5. Aplicar parches solo si se requiere
+            if patch_info and current_version != latest_version:
+                self.log(f"Aplicando parche(s) para actualizar a la versión {latest_version}...")
+                self.install_patch(patch_info)
+
+            # 6. Finalización
+            self.finishedSignal.emit(False, latest_version)
 
         except Exception as e:
             self.log(f"ERROR: {e}")
@@ -335,12 +321,24 @@ class UpdateWorker(QThread):
                 else:
                     shutil.copy2(s, d)
 
-        # 5. Guardar la versión instalada en installed_version.txt
+        # 5. Copiar libraries a .minecraft directory (si existe)
+        libraries_dir = os.path.join(temp_dir, "libraries")
+        if os.path.isdir(libraries_dir):
+            self.log("Copiando libraries en .minecraft...")
+            for item in os.listdir(libraries_dir):
+                s = os.path.join(libraries_dir, item)
+                d = os.path.join(self.minecraft_dir, "libraries", item)
+                if os.path.isdir(s):
+                    copy_all(s, d, self.log)
+                else:
+                    shutil.copy2(s, d)
+
+        # 6. Guardar la versión instalada en installed_version.txt
         installed_version_path = os.path.join(self.modpack_dir, INSTALLED_VERSION_FILE)
         with open(installed_version_path, 'w', encoding='utf-8') as f:
             f.write(version)
 
-        # 6. (Opcional) Agregar/actualizar perfil en launcher_profiles.json
+        # 7. (Opcional) Agregar/actualizar perfil en launcher_profiles.json
         launcher_profiles_path = os.path.join(self.minecraft_dir, "launcher_profiles.json")
         # Crea un ID único para el perfil
         profile_id = "23fc205a599a1340b3cb7ee096b9760d"
@@ -393,6 +391,18 @@ class UpdateWorker(QThread):
                 self.log(f"Eliminando archivo obsoleto: {target_path}")
                 os.remove(target_path)
 
+        dir_to_remove = patch_info.get("dirToRemove", [])
+        for rel_path in dir_to_remove:
+            # Suponiendo que rel_path es relativo a .mxd02modpack
+            target_path = os.path.join(self.modpack_dir, rel_path)
+            if os.path.exists(target_path):
+                self.log(f"Eliminando carpeta obsoleta: {target_path}")
+                try:
+                    os.chmod(target_path, 0o777)  # Cambiar permisos
+                    shutil.rmtree(target_path)
+                except Exception as e:
+                    self.log(f"ERROR al eliminar la carpeta: {e}")
+
         # En el parche, podrías tener la misma estructura:
         #   .mxd02modpack/
         #   forgeVersion/
@@ -409,6 +419,17 @@ class UpdateWorker(QThread):
             for item in os.listdir(forge_version_dir):
                 s = os.path.join(forge_version_dir, item)
                 d = os.path.join(self.forge_versions_dir, item)
+                if os.path.isdir(s):
+                    copy_all(s, d, self.log)
+                else:
+                    shutil.copy2(s, d)
+
+        libraries_dir = os.path.join(temp_dir, "libraries")
+        if os.path.isdir(libraries_dir):
+            self.log("Copiando parche libraries en .minecraft...")
+            for item in os.listdir(libraries_dir):
+                s = os.path.join(libraries_dir, item)
+                d = os.path.join(self.minecraft_dir, "libraries", item)
                 if os.path.isdir(s):
                     copy_all(s, d, self.log)
                 else:
@@ -519,7 +540,7 @@ def open_minecraft_store_edition():
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("MXD02 Modpack Manager v1.0")
+        self.setWindowTitle("MXD02 Modpack Manager v1.1")
         self.setWindowIcon(QIcon(icon_path))
         self.setGeometry(300, 80, 800, 600)
 
