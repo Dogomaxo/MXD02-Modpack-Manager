@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (
     QWidget, QHBoxLayout, QLineEdit, QFileDialog, QProgressBar, QMessageBox, QComboBox
 )
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
-from PyQt5.QtGui import QPalette, QColor
+from PyQt5.QtGui import QPalette, QColor, QIcon
 
 # ---------------------------------------------------------
 # CONFIGURACIONES
@@ -512,6 +512,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("MXD02 Modpack Manager v1.0")
+        self.setWindowIcon(QIcon("resources/icon.ico"))
         self.setGeometry(300, 80, 800, 600)
 
         # Layout principal
