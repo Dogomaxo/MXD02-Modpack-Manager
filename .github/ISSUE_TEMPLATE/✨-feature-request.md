@@ -1,0 +1,40 @@
+---
+name: "✨ Feature Request"
+about: Aporta una idea al proyecto.
+title: "[FEATURE]:"
+labels: enhancement
+assignees: ''
+
+---
+
+body:
+  - type: markdown
+    attributes:
+      value: >
+        ¡Gracias por tu interés en mejorar este proyecto!
+        Por favor, describe la funcionalidad o cambio que te gustaría ver.
+
+  - type: input
+    id: feature-description
+    attributes:
+      label: "Descripción de la sugerencia"
+      description: "Explica en qué consiste la nueva característica."
+      placeholder: "Ejemplo: Agregar una opción para instalar parches automáticamente..."
+    validations:
+      required: true
+
+  - type: input
+    id: motivation
+    attributes:
+      label: "Motivación o problema"
+      description: "¿Qué problema resuelve o qué beneficio aporta?"
+      placeholder: "Ejemplo: Simplificar la instalación sin necesidad de steps manuales..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "Contexto adicional"
+      description: "Información extra, ejemplos, capturas, etc."
+      placeholder: "Describe casos de uso, ejemplos..."
