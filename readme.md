@@ -90,11 +90,11 @@ Si prefieres trabajar con el código fuente:
    pip install -r requirements.txt
 
 3. Ejecuta:
-   '''bash
+   ```bash
    python mxd02_modpackinstaller.py
 
 4. (Opcional) Compila con PyInstaller:
-   '''bash
+   ```bash
    pyinstaller --onefile --windowed mxd02_modpackinstaller.py
 
 ---
