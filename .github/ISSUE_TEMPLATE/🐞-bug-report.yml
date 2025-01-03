@@ -36,8 +36,6 @@ body:
       description: "¿En qué versión ocurre el bug?"
       options:
         - "v1.0"
-        - "v1.1"
-        - "v1.2"
         - "Otra"
     validations:
       required: true
