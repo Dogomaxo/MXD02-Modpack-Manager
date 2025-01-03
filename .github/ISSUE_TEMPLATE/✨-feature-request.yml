@@ -1,11 +1,8 @@
----
 name: "✨ Feature Request"
-about: Aporta una idea al proyecto.
-title: "[FEATURE]:"
-labels: enhancement
-assignees: ''
-
----
+description: "Aporta una ide al proyecto."
+title: "[FEATURE]: "
+labels: ["enhancement"]
+assignees: []
 
 body:
   - type: markdown
