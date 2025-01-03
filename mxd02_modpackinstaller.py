@@ -18,6 +18,14 @@ from PyQt5.QtGui import QPalette, QColor, QIcon
 # ---------------------------------------------------------
 # CONFIGURACIONES
 # ---------------------------------------------------------
+
+if hasattr(sys, '_MEIPASS'):
+    base_path = sys._MEIPASS
+else:
+    base_path = os.path.abspath(".")
+
+icon_path = os.path.join(base_path, "resources", "icon.ico")
+
 # (Cambia aquí la URL raw de tu Pastebin con el manifest)
 DEFAULT_MANIFEST_URL = "https://pastebin.com/raw/mPKas0Ci"
 
@@ -512,7 +520,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("MXD02 Modpack Manager v1.0")
-        self.setWindowIcon(QIcon("resources/icon.ico"))
+        self.setWindowIcon(QIcon(icon_path))
         self.setGeometry(300, 80, 800, 600)
 
         # Layout principal
