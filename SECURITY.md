@@ -1,21 +1,45 @@
 # Security Policy
 
+Nuestra prioridad es garantizar la seguridad de los usuarios y la integridad del proyecto. Agradecemos cualquier informe de vulnerabilidad o problema de seguridad.
+
+---
+
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Aquí se indica qué versiones reciben actualizaciones de seguridad:
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| Versión   | Estado    |
+|-----------|----------|
+| **v1.0** | ✅ Soportada |
+
+> **Nota:** Las versiones marcadas como “Sin soporte” no reciben parches de seguridad. Se recomienda actualizar a la más reciente lo antes posible.
+
+---
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+Si descubres una vulnerabilidad o un problema de seguridad:
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+1. **Reporta** el problema a través de un correo a <mxd022025@gmail.com>.
+2. Incluye en tu reporte:
+   - Descripción detallada de la vulnerabilidad.
+   - Pasos para reproducirla (si corresponde).
+   - Impacto potencial en la aplicación o en los usuarios.
+3. **Plazos de respuesta**:
+   - Agradecemos tu reporte y confirmaremos la recepción en un plazo máximo de 72 horas.
+   - Revisaremos la vulnerabilidad y, si procede, emitiremos un parche o actualización dentro de 7 días (o antes, según la criticidad).
+
+---
+
+## Disclosure
+
+Para proteger a nuestros usuarios, te pedimos que **no** divulgues detalles de la vulnerabilidad públicamente hasta que hayamos lanzado una solución. Una vez parcheada, te reconoceremos en los créditos de seguridad del proyecto (salvo que prefieras permanecer anónimo).
+
+---
+
+## Contacto
+
+- **Email**: <mxd022025@gmail.com>
+
+¡Agradecemos tu colaboración para mantener la seguridad de todos!
+
