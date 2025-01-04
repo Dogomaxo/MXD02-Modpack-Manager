@@ -1,0 +1,18 @@
+NOTICE
+
+Este software incluye el código fuente del proyecto [Nombre del Proyecto], que está licenciado bajo
+la Licencia MIT. Los siguientes términos aplican a este proyecto:
+
+1. Los derechos de autor de este software son propiedad de [Dogomaxo].
+2. Atribuciones de terceros:
+   - Este proyecto utiliza bibliotecas y dependencias externas que pueden estar sujetas a licencias
+     diferentes. Consulta la documentación o los archivos de licencias en las dependencias para más
+     información.
+   - Ejemplo: [PyQt5] está licenciada bajo [Licencia GPL v3.0].
+
+3. Avisos adicionales:
+   - Este software puede ser usado, modificado y distribuido de acuerdo con los términos de la
+     Licencia MIT, incluida en el archivo `LICENSE`.
+
+Para obtener más información, por favor visita el repositorio oficial del proyecto:
+[[Enlace al repositorio o sitio web del proyecto](https://github.com/Dogomaxo/MXD02-modpack-installer-checker)]

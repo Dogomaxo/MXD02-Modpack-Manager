@@ -134,6 +134,19 @@ Si prefieres trabajar con el código fuente:
 - Iconos e imágenes pertenecen a [Bunnadexu].  
 - Este proyecto no está afiliado ni respaldado oficialmente por Mojang o Microsoft.
 
+Este proyecto está licenciado bajo la **Licencia MIT**. Consulta el archivo `LICENSE` para más detalles.
+
+### Atribuciones
+
+El proyecto utiliza las siguientes dependencias externas:
+
+- [PyQt5](https://pypi.org/project/PyQt5/) - Licencia GPL v3.0
+- [Requests](https://pypi.org/project/requests/) - Licencia Apache 2.0
+- [pyunpack](https://pypi.org/project/pyunpack/) - Licencia GPL v3.0
+- [patool](https://pypi.org/project/patool/) - Licencia GPL v3.0
+
+Consulta el archivo `NOTICE` para más información sobre estas dependencias y sus respectivas licencias.
+
 **¡Gracias por usar MXD02 Modpack Manager!**  
 Para cualquier duda o comentario, abre un _Issue_ en el repositorio o contáctame por [https://github.com/Dogomaxo].
 
@@ -141,7 +154,14 @@ Para cualquier duda o comentario, abre un _Issue_ en el repositorio o contáctam
 
 ### Changelog (Historial de Cambios)
 
-- **v1.0**: Primera versión pública con instalación y parche básico.  
+#### **v1.0**
+- Primera versión pública con instalación y parche básico.
+
+#### **v1.1**
+- 🔄 **Corrección:** Flujo de actualizaciones y parches mejorado.
+- 🐞 **Corrección:** Solucionado un bug que descargaba todo nuevamente aun teniendo el último parche instalado.
+- ➕ **Función añadida:** Ahora el archivo `manifest.json` puede modificar la carpeta `libraries` de `.minecraft` para realizar una instalación correcta de Forge y evitar el error `1` en Minecraft Launcher. (Créditos a _Bunnadexu_ por detectar el error).
+- ➕ **Función añadida:** Soporte para borrar carpetas/directorios mediante el archivo `manifest.json`.
 
 ---
 
