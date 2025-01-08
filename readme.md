@@ -1,4 +1,4 @@
-# MXD02 Modpack Manager v1.0
+# MXD02 Modpack Manager
 
 ¡Bienvenido(a) a **MXD02 Modpack Manager**! Esta aplicación facilita la instalación, actualización y gestión de modpacks para Minecraft de forma sencilla y rápida, sin necesidad de manipular manualmente archivos ni carpetas.
 
