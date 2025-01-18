@@ -10,7 +10,8 @@ Aquí se indica qué versiones reciben actualizaciones de seguridad:
 
 | Versión   | Estado    |
 |-----------|----------|
-| **v1.1**   | ✅ Soportada    |
+| **v1.2**   | ✅ Soportada    |
+| **v1.1**   | ❌ Sin Soporte    |
 | **v1.0** | ❌ Sin Soporte |
 
 > **Nota:** Las versiones marcadas como “Sin soporte” no reciben parches de seguridad. Se recomienda actualizar a la más reciente lo antes posible.

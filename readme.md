@@ -163,6 +163,12 @@ Para cualquier duda o comentario, abre un _Issue_ en el repositorio o contáctam
 - ➕ **Función añadida:** Ahora el archivo `manifest.json` puede modificar la carpeta `libraries` de `.minecraft` para realizar una instalación correcta de Forge y evitar el error `1` en Minecraft Launcher. (Créditos a _Bunnadexu_ por detectar el error).
 - ➕ **Función añadida:** Soporte para borrar carpetas/directorios mediante el archivo `manifest.json`.
 
+#### **v1.2**
+- 🔄 **Corrección:** Flujo de actualizaciones en parches mejorado.
+- 🐞 **Corrección:** Solucionado un bug que no permitía descargar mas de un parche, por ende, reestructuración de la forma de organizar parches en el archivo `manifest.json`.
+- 🐞 **Corrección:** Solucionado un bug que descargaba la versión base a pesar de tener una versión superior a esta.
+- ➕ **Función añadida:** Soporte para añadir archivos a la carpeta raíz del modpack creando una carpeta llamada 'additional_files' dentro del zip.
+
 ---
 
 _Dedicado para mis Mejores amigos._
