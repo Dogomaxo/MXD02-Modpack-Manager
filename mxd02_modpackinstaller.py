@@ -222,7 +222,6 @@ class UpdateWorker(QThread):
 
             latest_version = manifest_data.get("latestVersion")
             full_info = manifest_data.get("full", {})
-            patch_info = manifest_data.get("patch", {})
 
             if not latest_version or "version" not in full_info:
                 raise Exception("El manifest no contiene la sección 'full' adecuada o 'latestVersion'.")
@@ -244,15 +243,19 @@ class UpdateWorker(QThread):
                 return
 
             # 4. Instalar Full Pack si la versión instalada no coincide con el Full más reciente
-            if current_version != full_info["version"]:
+            if not current_version or self.is_version_greater(full_info["version"], current_version):
                 self.log(f"Instalando Full Pack {full_info['version']}...")
                 self.install_full(full_info)
-                current_version = full_info["version"]  # Actualiza la versión después de instalar el Full
+                current_version = full_info["version"]
 
             # 5. Aplicar parches solo si se requiere
-            if patch_info and current_version != latest_version:
-                self.log(f"Aplicando parche(s) para actualizar a la versión {latest_version}...")
-                self.install_patch(patch_info)
+            patches = {key: value for key, value in manifest_data.items() if key.startswith("patch")}
+            for patch_key, patch_info in sorted(patches.items()):
+                patch_version = patch_info.get("version")
+                if self.is_version_greater(patch_version, current_version):
+                    self.log(f"Aplicando {patch_key} para actualizar a la versión {patch_version}...")
+                    self.install_patch(patch_info)
+                    current_version = patch_version
 
             # 6. Finalización
             self.finishedSignal.emit(False, latest_version)
@@ -333,12 +336,20 @@ class UpdateWorker(QThread):
                 else:
                     shutil.copy2(s, d)
 
-        # 6. Guardar la versión instalada en installed_version.txt
+        # 6. Copiar el contenido de "additional_files" si existe
+        additional_dir = os.path.join(temp_dir, "additional_files")
+        if os.path.isdir(additional_dir):
+            self.log("Se encontró la carpeta 'additional_files'. Copiando su contenido a .mxd02modpack...")
+            copy_all(additional_dir, self.modpack_dir)
+        else:
+            self.log("No se encontró la carpeta 'additional_files' en el Full Pack.")
+
+        # 7. Guardar la versión instalada en installed_version.txt
         installed_version_path = os.path.join(self.modpack_dir, INSTALLED_VERSION_FILE)
         with open(installed_version_path, 'w', encoding='utf-8') as f:
             f.write(version)
 
-        # 7. (Opcional) Agregar/actualizar perfil en launcher_profiles.json
+        # 8. (Opcional) Agregar/actualizar perfil en launcher_profiles.json
         launcher_profiles_path = os.path.join(self.minecraft_dir, "launcher_profiles.json")
         # Crea un ID único para el perfil
         profile_id = "23fc205a599a1340b3cb7ee096b9760d"
@@ -406,6 +417,8 @@ class UpdateWorker(QThread):
         # En el parche, podrías tener la misma estructura:
         #   .mxd02modpack/
         #   forgeVersion/
+        #   resourcepacks/
+        #   additional_files/
         #   u otras carpetas
         # Copia igual que en full, pero sólo lo que exista
         src_modpack = os.path.join(temp_dir, ".mxd02modpack")
@@ -423,6 +436,14 @@ class UpdateWorker(QThread):
                     copy_all(s, d, self.log)
                 else:
                     shutil.copy2(s, d)
+
+        #Copiar el contenido de "additional_files" si existe
+        additional_dir = os.path.join(temp_dir, "additional_files")
+        if os.path.isdir(additional_dir):
+            self.log("Se encontró la carpeta 'additional_files'. Copiando su contenido a .mxd02modpack...")
+            copy_all(additional_dir, self.modpack_dir)
+        else:
+            self.log("No se encontró la carpeta 'additional_files' en el Parche.")
 
         libraries_dir = os.path.join(temp_dir, "libraries")
         if os.path.isdir(libraries_dir):
@@ -540,7 +561,7 @@ def open_minecraft_store_edition():
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("MXD02 Modpack Manager v1.1")
+        self.setWindowTitle("MXD02 Modpack Manager v1.2 Release")
         self.setWindowIcon(QIcon(icon_path))
         self.setGeometry(300, 80, 800, 600)
 
